@@ -55,11 +55,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _showSheet() {
+  void _showSheet(bool useSafeArea) {
     showModalBottomSheet(
       context: context,
-      useSafeArea: true,
-      enableDrag: true,
+      useSafeArea: useSafeArea,
       builder: (BuildContext context) {
         return Column(children: List.generate(4, (index) => MenuItemButton(onPressed: () {}, child: Text('MenuItemButton $index'))));
       });
@@ -83,11 +82,16 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showSheet,
-        tooltip: 'Show sheet',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Center(child: Column(children: [
+        ElevatedButton(
+            onPressed: () => _showSheet(true),
+            child: const Text('Modal bottom sheet with useSafeArea: true')
+        ),
+        ElevatedButton(
+            onPressed: () => _showSheet(false),
+            child: const Text('Modal bottom sheet with useSafeArea: false')
+        ),
+      ])),
     );
   }
 }
